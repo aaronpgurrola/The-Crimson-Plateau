@@ -3,7 +3,6 @@ import Front as f
 import DrugDemand as dd
 import GlobalUtils as gu
 import DrugRun as dr
-import time
 import math
 
 # Constants for different drug price constants
@@ -74,24 +73,3 @@ class District():
         if self.drugRun.isRunning():
             self.fronts[index].hitFront()
             self.fronts[index].getBase()*self.demandFunction(demand)
-
-def go():
-    district = District()
-    district.createFront("Store1", 0.5)
-    district.createFront("Store2", 0.5)
-    district.createFront("Store3", 0.4)
-    district.createFront("Store4", 1.0)
-    district.createFront("Store5", 0.6)
-    district.createFront("Store6", 0.7)
-    district.printFronts()
-
-    start = time.time()
-    elapsed = 0
-    seconds = 20
-    while elapsed < seconds:
-        print(district.demandFunction(elapsed/seconds))
-        elapsed = math.floor(time.time() - start)
-        time.sleep(1)
-        print(elapsed)
-
-go()

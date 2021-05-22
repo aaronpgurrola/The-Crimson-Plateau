@@ -3,7 +3,8 @@ class Front:
     def __init__(self, name: str, base: float):
         self.name = name
         self.base = base
-        self.hit = False
+        self.isHit = False
+        self.isOwned = False
 
     def upgrade(self):
         self.base += 0.1
@@ -21,4 +22,4 @@ class Front:
         self.hit = False
 
     def getHit(self):
-        return self.hit
+        return self.isHit
