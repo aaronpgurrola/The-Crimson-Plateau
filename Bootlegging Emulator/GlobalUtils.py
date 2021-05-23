@@ -1,9 +1,19 @@
-class Drugs(Enum):
+from enum import IntEnum
+
+class Drugs(IntEnum):
     MJ = 1
     COKE = 2
-    BLUE = 3
+    SHINE = 3
 
-def typeChecker():
+# Helper function to determine if number equal or between 0 and 1
+def isPercentage(num: float):
+    if num < 0 or num > 1:
+        raise ValueError('Invalid number. Please input number between 0 and 1.')
+        return False
+    else:
+        return True
+
+def typeChecker(type: int):
     if type < 1 or type > 3:
         raise ValueError('Invalid type.')
         return False

@@ -5,14 +5,6 @@ import GlobalUtils as gu
 MINIMUM_DEMAND = .01
 MAXIMUM_DEMAND = 1
 
-# Helper function to determine if number equal or between 0 and 1
-def isPercentage(num: float):
-    if num < 0 or num > 1:
-        raise ValueError('Invalid number. Please input number between 0 and 1.')
-        return False
-    else:
-        return True
-
 # Class for Drug Demand
 # Used to return current demands by type
 # Used to alter demand by type
@@ -25,7 +17,7 @@ class DrugDemand:
     # Return demand by type
     def getDrugDemand(self, type: int):
         if gu.typeChecker(type):
-            return demandDict[type]
+            return self.demandDict[type]
 
     # Alteration methods
     # Reduction methods
@@ -33,6 +25,8 @@ class DrugDemand:
     # Utility to determine if demand can be reduced
     # Utility for reduceDrugDemand
     def canReduce(self, type: int, percentage: float):
+        if not gu.isPercentage(percentage):
+            pass
         if (self.getDrugDemand(type)-percentage) < MINIMUM_DEMAND:
             return False
         else:
@@ -41,7 +35,7 @@ class DrugDemand:
     # Reduces drug demand by percentage 0 to 1
     # Uses canReduce helper method
     def reduceDrugDemand(self, type: int, percentage: float):
-        if not isPercentage(percentage):
+        if not gu.isPercentage(percentage):
             pass
         if canReduce(type, percentage):
             self.demandDict[type] = self.demandDict[type] - percentage
@@ -52,7 +46,7 @@ class DrugDemand:
     # Utility to determine if demand can be increased
     # Utility for increaseDrugDemand
     def canIncrease(self, type: int, percentage: float):
-        if not isPercentage(percentage):
+        if not gu.isPercentage(percentage):
             pass
         if (self.getDrugDemand(type) + percentage) > MAXIMUM_DEMAND:
             return False
@@ -62,7 +56,7 @@ class DrugDemand:
     # Reduces drug demand by percentage 0 to 1
     # Uses canReduce helper method
     def increaseDrugDemand(self, type: int, percentage: float):
-        if not isPercentage(percentage):
+        if not gu.isPercentage(percentage):
             pass
         if canIncrease(self.demandDict[type], percentage):
             self.demandDict[type] = self.demandDict[type] + percentage

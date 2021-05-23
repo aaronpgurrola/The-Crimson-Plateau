@@ -1,4 +1,3 @@
-from enum import Enum
 import Front as f
 import DrugDemand as dd
 import GlobalUtils as gu
@@ -10,6 +9,7 @@ GALLON_PRICE = 5.0
 MJ_GRAM_PRICE = 10.0
 COKE_GRAM_PRICE = 20.0
 
+DRUG_PRICE_DICT = {gu.Drugs.COKE: COKE_GRAM_PRICE, gu.Drugs.MJ: MJ_GRAM_PRICE, gu.Drugs.SHINE: GALLON_PRICE}
 
 # District is currently the top-tier component
 # TODO: Build Map class to hold multiple districts
@@ -39,8 +39,7 @@ class District():
     def printFronts(self):
         frontString = ''
         for front in self.fronts:
-            newline = front.getName() + '\t' + str(front.getBase()) + '\t' + str(front.getHit())
-            frontString+= newline + '\n'
+            frontString+= front.__str__() + '\n'
         print(frontString)
 
     # Sets all fronts as not hit during drug run
@@ -64,7 +63,11 @@ class District():
     # Helper function for hitFront
     # Helper function to determine output $ of front.basew * demand%
     def demandFunction(self, type: int):
-        return (1+(1/math.exp(5))) - math.exp(-5*self.drugDemand.getDrugDemand(type))
+        multiplier = (1+(1/math.exp(5))) - math.exp(-5*self.drugDemand.getDrugDemand(type))
+        return multiplier*DRUG_PRICE_DICT[type]
+
+    def ownFrontByIndex(self, index: int):
+        self.fronts[index].own()
 
     # Hits a front and returns dollar amount
     # Used for testing
@@ -72,4 +75,7 @@ class District():
     def hitFrontByIndex(self, index: int):
         if self.drugRun.isRunning():
             self.fronts[index].hitFront()
-            self.fronts[index].getBase()*self.demandFunction(demand)
+            quantity = self.drugRun.getQuantity()
+            type = self.drugRun.getRunType()
+            base = self.fronts[index].getBase()
+            self.drugRun.addToHaul(quantity*base*self.demandFunction(type))

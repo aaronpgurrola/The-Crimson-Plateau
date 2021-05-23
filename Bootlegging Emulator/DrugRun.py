@@ -1,10 +1,10 @@
-import GlobalUtils as gu 
+import GlobalUtils as gu
 
 # DrugRun class is currently a component of District
 # TODO: When district testing is finished, make DrugRun a component of map
 class DrugRun():
     def __init__(self):
-        self.isRunning = False
+        self.running = False
         self.runType = 1
         self.quantity = 0
         self.haul = 0
@@ -13,22 +13,28 @@ class DrugRun():
         if gu.typeChecker(type):
             self.runType = type
 
+    def getRunType(self):
+        return self.runType
+
+    def getQuantity(self):
+        return self.quantity
+
     def run(self, type: int, quantity: int):
         self.setRunType(type)
         self.quantity = quantity
-        self.isRunning = True
+        self.running = True
 
     def end(self):
-        print(haul)
-        self.isRunning = False
+        print(self.haul)
+        self.running = False
         self.haul = 0
         self.quantity = 0
+
+    def addToHaul(self, money: float):
+        self.haul += money
 
     def getCurrentHaul(self):
         return self.haul
 
-    def getRunType(self):
-        return self.runType
-
     def isRunning(self):
-        return self.isRunning
+        return self.running
